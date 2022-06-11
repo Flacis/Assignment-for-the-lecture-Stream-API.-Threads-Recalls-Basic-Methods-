@@ -1,7 +1,6 @@
 package homework;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static homework.Education.HIGHER;
 
@@ -27,33 +26,22 @@ public class Main {
                 .count();
         System.out.println("Количество несовершеннолетних " + count);
 
+        System.out.println(" ");
+
         List<String> familiesList = persons.stream()
-                .filter(Random -> Random.getAge(100) > 17)
+                .filter(Random -> Random.getAge(100) >= 18)
                 .filter(Random -> Random.getAge(100) < 27)
-                .map(Person::getFamily)
-                .collect(Collectors.toList());
-        System.out.println(familiesList + "Призывники");
+                .map(Person::getFamily).toList();
+        System.out.println(familiesList + " Призывники");
 
-        System.out.println("Мужчины");
+        System.out.println(" ");
+
         persons.stream()
-                .filter(Random -> Random.getAge(100) > 17)
-                .filter(Random -> Random.getAge(100) < 65)
-                .filter(Sex -> Sex.getSex() == homework.Sex.MAN)
+                .filter((Random) -> Random.getAge(100) >= 18)
+                .filter((Random) -> (Random.getSex() == Sex.WOMAN && Random.getAge(100) < 60) || (Random.getSex() == Sex.MAN && Random.getAge(100) < 65))
                 .filter(Education -> Education.getEducation() == HIGHER)
                 .sorted(Comparator.comparing(Person::getFamily))
                 .sorted(Comparator.comparing(Person::getSex))
                 .forEach(System.out::println);
-        System.out.println();
-
-        System.out.println("Женщины");
-        persons.stream()
-                .filter(Random -> Random.getAge(100) > 17)
-                .filter(Random -> Random.getAge(100) < 60)
-                .filter(Sex -> Sex.getSex() == homework.Sex.WOMAN)
-                .filter(Education -> Education.getEducation() == HIGHER)
-                .sorted(Comparator.comparing(Person::getFamily))
-                .sorted(Comparator.comparing(Person::getSex))
-                .forEach(System.out::println);
-        System.out.println();
     }
 }
